@@ -53,9 +53,9 @@ declare module "yargs" {
 			usage(message: string, options?: { [key: string]: Options }): Argv;
 			usage(options?: { [key: string]: Options }): Argv;
 
-			command(command: string, description: string): Argv;
+			example(command: string, description?: string): Argv;
 
-			example(command: string, description: string): Argv;
+			command(name:string, description?:string): Argv;
 
 			check(func: (argv: { [key: string]: any }, aliases: { [alias: string]: string }) => boolean): Argv;
 			check(func: (argv: { [key: string]: any }, aliases: { [alias: string]: string }) => string): Argv;
@@ -68,6 +68,8 @@ declare module "yargs" {
 
 			config(key: string): Argv;
 			config(keys: string[]): Argv;
+
+			reset(): Argv;
 
 			wrap(columns: number): Argv;
 
