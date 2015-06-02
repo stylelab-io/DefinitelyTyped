@@ -1407,3 +1407,5 @@ declare module "domain" {
 
     export function create(): Domain;
 }
+
+declare function unescape(str : string) : string;
