@@ -44,4 +44,6 @@ declare module "popsicle" {
 
     function popsicle(request : Request) : Q.IPromise<Response>;
 
+    export = popsicle;
+
 }
