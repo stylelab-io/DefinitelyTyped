@@ -1,8 +1,8 @@
 /// <reference path="./../q/Q.d.ts" />
 
-declare module "popsicle" {
+declare module popsicle {
 
-    interface Request {
+    export interface Request {
 
         method?: string;
 
@@ -34,15 +34,19 @@ declare module "popsicle" {
 
     }
 
-    interface Response {
+    export interface Response {
 
         body : string;
 
     }
 
-    function popsicle(url : string) : Q.IPromise<Response>;
+}
 
-    function popsicle(request : Request) : Q.IPromise<Response>;
+declare module "popsicle" {
+
+    function popsicle(url : string) : Q.IPromise<popsicle.Response>;
+
+    function popsicle(request : popsicle.Request) : Q.IPromise<popsicle.Response>;
 
     export = popsicle;
 
