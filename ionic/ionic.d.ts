@@ -766,7 +766,7 @@ declare module Ionic
         /**
          * The scope to be a child of. Default: creates a child of $rootScope.
          */
-        scope?: ng.IScope;
+        scope?: angular.IScope;
 
         /**
          * The animation to show & hide with. Default: 'slide-in-up'
@@ -816,26 +816,26 @@ declare module Ionic
          * @param templateUrl The url to load the template from.
          * @param options Options to be passed to the initialize method.
          */
-        fromTemplateUrl(templateUrl: string, options: IModalOptions): ng.IPromise<IModal>;
+        fromTemplateUrl(templateUrl: string, options: IModalOptions): angular.IPromise<IModal>;
 
 
         /**
          * Show this modal instance
          * Returns a promise which is resolved when the modal is finished animating in
          */
-        show(): ng.IPromise<any>;
+        show(): angular.IPromise<any>;
 
         /**
          * Hide this modal instance
          * Returns a promise which is resolved when the modal is finished animating out
          */
-        hide(): ng.IPromise<any>;
+        hide(): angular.IPromise<any>;
 
         /**
          * Remove this modal instance from the DOM and clean up
          * Returns a promise which is resolved when the modal is finished animating out
          */
-        remove(): ng.IPromise<any>;
+        remove(): angular.IPromise<any>;
 
         /**
          * Returns whether this modal is currently shown.
@@ -1067,7 +1067,7 @@ declare module Ionic
         /**
          * The scope to be a child of. Default: creates a child of $rootScope
          */
-        scope?: ng.IScope;
+        scope?: angular.IScope;
 
         /**
          * Whether to autofocus the first input of the popover when shown. Default: false
@@ -1107,7 +1107,7 @@ declare module Ionic
          * @param templateUrl The url to load the template from
          * @param Options to be passed to the initialize method
          */
-        fromTemplateUrl(templateUrl: string, options: IPopoverOptions): ng.IPromise<IPopover>;
+        fromTemplateUrl(templateUrl: string, options: IPopoverOptions): angular.IPromise<IPopover>;
 
         /**
          * Creates a new popover controller instance
@@ -1121,19 +1121,19 @@ declare module Ionic
          *
          * @param $event The $event or target element which the popover should align itself next to.
          */
-        show($event: any): ng.IPromise<any>;
+        show($event: any): angular.IPromise<any>;
 
         /**
          * Hide this popover instance.
          * Returns a promise which is resolved when the popover is finished animating out.
          */
-        hide(): ng.IPromise<any>;
+        hide(): angular.IPromise<any>;
 
         /**
          * Remove this popover instance from the DOM and clean up.
          * Returns a promise which is resolved when the popover is finished animating out.
          */
-        remove(): ng.IPromise<any>;
+        remove(): angular.IPromise<any>;
 
         /**
          * Returns whether this popover is currently shown.
