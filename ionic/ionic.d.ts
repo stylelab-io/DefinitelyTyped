@@ -1,3 +1,5 @@
+/// <reference path="../angularjs/angular.d.ts" />
+
 /**
  *
  * Ionic TypeScript type definition
