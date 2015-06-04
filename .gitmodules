@@ -1,3 +1,0 @@
-[submodule "ionic"]
-	path = ionic
-	url = git@github.com:danibo86/ionic-typescript-definitions.git
