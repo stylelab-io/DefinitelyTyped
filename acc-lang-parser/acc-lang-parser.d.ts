@@ -1,4 +1,4 @@
-declare module "parse-acc-lang" {
+declare module "acc-lang-parser" {
 
     interface ILanguage {
 
