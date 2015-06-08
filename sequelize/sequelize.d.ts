@@ -2747,6 +2747,7 @@ declare module "sequelize"
             (...values: Array<string>): DataTypeEnum;
         }
         interface DataTypeArray {
+            (otherDataType : any) : void;
         }
         interface DataTypeHstore {
         }
