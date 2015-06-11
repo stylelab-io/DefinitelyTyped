@@ -26,7 +26,7 @@ declare module "solr" {
 
     }
 
-    interface SolrQueryResponse {
+    interface SolrQueryResponse<DocumentType> {
 
         responseHeader : {
 
@@ -50,7 +50,7 @@ declare module "solr" {
 
             start : number;
 
-            docs : any[];
+            docs : DocumentType[];
 
         }
 
@@ -102,6 +102,38 @@ declare module "solr" {
             }[];
 
         }
+
+    }
+
+    interface MoreLikeThisResponse<DocumentType> {
+
+        responseHeader : {
+
+            status : number;
+
+            QTime : number;
+
+        };
+
+        match : {
+
+            numFound: number;
+
+            start: number;
+
+            docs: DocumentType[];
+
+        };
+
+        response : {
+
+            numFound : number;
+
+            start : number;
+
+            docs : DocumentType[];
+
+        };
 
     }
 
