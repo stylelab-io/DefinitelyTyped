@@ -6,6 +6,9 @@ import ng = require("angular2/angular2");
 class Service {
 	
 }
+class Service2 {
+  
+}
 
 class Cmp {
 	static annotations: any[];
@@ -13,11 +16,21 @@ class Cmp {
 Cmp.annotations = [
   ng.Component({
     selector: 'cmp',
-    injectables: [Service]
+    injectables: [Service, ng.bind(Service2).toValue(null)]
   }),
   ng.View({
     template: '{{greeting}} world!',
-    directives: [ng.For, ng.If]
+    directives: [ng.NgFor, ng.NgIf]
+  }),
+  ng.Directive({
+    selector: '[tooltip]',
+    properties: [
+      'text: tooltip'
+    ],
+    hostListeners: {
+      'onmouseenter': 'onMouseEnter()',
+      'onmouseleave': 'onMouseLeave()'
+    }
   })
 ];
 
