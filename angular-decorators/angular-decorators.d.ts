@@ -29,7 +29,7 @@ declare module AngularDecorators {
     export function Service(type:string);
     export function Animation();
 
-    export function Require();
+    export function Require(...components:string[]);
 
     export function View(config:IViewConfig);
 
