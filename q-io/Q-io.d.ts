@@ -142,8 +142,8 @@ declare module QioHTTP {
 	export function request(request:Request):Q.Promise<Response>;
 	export function request(url:string):Q.Promise<Response>;
 
-	export function read(request:Request):Q.Promise<string>;
-	export function read(url:string):Q.Promise<string >;
+	export function read(request:Request):Q.Promise<Buffer>;
+	export function read(url:string):Q.Promise<Buffer>;
 
 	export function normalizeRequest(request:Request):Request;
 	export function normalizeRequest(url:string):Request;
