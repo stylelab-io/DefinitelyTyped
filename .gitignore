@@ -34,3 +34,5 @@ node_modules
 
 .sublimets
 .settings/launch.json
+
+tsconfig.json

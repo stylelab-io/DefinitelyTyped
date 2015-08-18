@@ -174,7 +174,7 @@ declare module gulp {
      * Callback to be called on each watched file change.
      */
     interface IWatchCallback {
-        (event:IWatchEvent): void;
+        (event: IWatchEvent): void;
     }
 
     interface ITaskCallback {
@@ -183,7 +183,7 @@ declare module gulp {
          * Tasks may be made asynchronous if they are passing a callback or return a promise or a stream.
          * @param cb callback used to signal asynchronous completion. Caller includes <code>err</code> in case of error.
          */
-        (cb?:(err?:any)=>void): any;
+        (cb?: (err?: any) => void): any;
     }
 
     interface EventEmitter {
@@ -197,7 +197,7 @@ declare module gulp {
          * @param name the name of the task. Tasks that you want to run from the command line should not have spaces in them.
          * @param fn the function that performs the task's operations. Generally this takes the form of gulp.src().pipe(someplugin()).
          */
-        task(name:string, fn:ITaskCallback): any;
+        task(name: string, fn: ITaskCallback): any;
 
         /**
          * Define a task.
@@ -206,7 +206,7 @@ declare module gulp {
          * @param dep an array of tasks to be executed and completed before your task will run.
          * @param fn the function that performs the task's operations. Generally this takes the form of gulp.src().pipe(someplugin()).
          */
-        task(name:string, dep:string[], fn?:ITaskCallback): any;
+        task(name: string, dep: string[], fn?: ITaskCallback): any;
 
 
         /**
@@ -214,14 +214,14 @@ declare module gulp {
          * @param glob a glob string, using node-glob syntax
          * @param opt an optional option object
          */
-        src(glob:string, opt?:ISrcOptions): NodeJS.ReadWriteStream;
+        src(glob: string, opt?: ISrcOptions): NodeJS.ReadWriteStream;
 
         /**
          * Takes a glob and represents a file structure. Can be piped to plugins.
          * @param glob an array of glob strings, using node-glob syntax
          * @param opt an optional option object
          */
-        src(glob:string[], opt?:ISrcOptions): NodeJS.ReadWriteStream;
+        src(glob: string[], opt?: ISrcOptions): NodeJS.ReadWriteStream;
 
 
         /**
@@ -231,7 +231,7 @@ declare module gulp {
          * @param outFolder the path (output folder) to write files to.
          * @param opt
          */
-        dest(outFolder:string, opt?:IDestOptions): NodeJS.ReadWriteStream;
+        dest(outFolder: string, opt?: IDestOptions): NodeJS.ReadWriteStream;
 
         /**
          * Can be piped to and it will write files. Re-emits all data passed to it so you can pipe to multiple folders.
@@ -240,7 +240,7 @@ declare module gulp {
          * @param outFolder a function that converts a vinyl File instance into an output path
          * @param opt
          */
-        dest(outFolder:(file:string)=>string, opt?:IDestOptions): NodeJS.ReadWriteStream;
+        dest(outFolder: (file: string) => string, opt?: IDestOptions): NodeJS.ReadWriteStream;
 
 
         /**
@@ -258,11 +258,79 @@ declare module gulp {
         watch(glob:string[], fn:(IWatchCallback|string)[]): EventEmitter;
         watch(glob:string[], opt:IWatchOptions, fn:(IWatchCallback|string)): EventEmitter;
         watch(glob:string[], opt:IWatchOptions, fn:(IWatchCallback|string)[]): EventEmitter;
+
+        /**
+         * Watch files and do something when a file changes. This always returns an EventEmitter that emits change events.
+         *
+         * @param glob a single glob or array of globs that indicate which files to watch for changes.
+         * @param tasks names of task(s) to run when a file changes, added with gulp.task()
+         */
+        watch(glob: string, tasks: string[]): EventEmitter;
+        watch(glob: string[], tasks: string[]): EventEmitter;
+
+        /**
+         * Watch files and do something when a file changes. This always returns an EventEmitter that emits change events.
+         *
+         * @param glob a single glob or array of globs that indicate which files to watch for changes.
+         * @param opt options, that are passed to the gaze library.
+         * @param tasks names of task(s) to run when a file changes, added with gulp.task()
+         */
+        watch(glob: string, opt: IWatchOptions, tasks: string[]): EventEmitter;
+        watch(glob: string[], opt: IWatchOptions, tasks: string[]): EventEmitter;
+
+        /**
+         * Watch files and do something when a file changes. This always returns an EventEmitter that emits change events.
+         *
+         * @param glob a single glob or array of globs that indicate which files to watch for changes.
+         * @param fn a callback or array of callbacks to be called on each change.
+         */
+        watch(glob: string, fn: IWatchCallback): EventEmitter;
+        watch(glob: string[], fn: IWatchCallback): EventEmitter;
+        watch(glob: string, fn: IWatchCallback[]): EventEmitter;
+        watch(glob: string[], fn: IWatchCallback[]): EventEmitter;
+
+        /**
+         * Watch files and do something when a file changes. This always returns an EventEmitter that emits change events.
+         *
+         * @param glob a single glob or array of globs that indicate which files to watch for changes.
+         * @param opt options, that are passed to the gaze library.
+         * @param fn a callback or array of callbacks to be called on each change.
+         */
+        watch(glob: string, opt: IWatchOptions, fn: IWatchCallback): EventEmitter;
+        watch(glob: string, opt: IWatchOptions, fn: IWatchCallback[]): EventEmitter;
+
+        /**
+         * Starts a task
+         *
+         * @deprecated: Will be removed in gulp@4.x
+         *
+         * @param name a task name which should be executed.
+         *
+         */
+        start(name: string): void;
+
+        /**
+         * One-shot event handler registration.
+         *
+         * @param eventName the name of the listenable event
+         * @param callback function which will be executed when the event occurs
+         *
+         */
+        once(eventName: string, callback: Function): void;
+
+        /**
+         * Registers an event handler.
+         *
+         * @param eventName the name of the listenable event
+         * @param callback function which will be executed when the event occurs
+         *
+         */
+        on(eventName: string, callback: Function): void;
     }
 }
 
 declare module "gulp" {
-    var _tmp:gulp.Gulp;
+    var _tmp: gulp.Gulp;
     export = _tmp;
 }
 
