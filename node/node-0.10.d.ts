@@ -35,7 +35,7 @@ declare var require: {
     main: any;
 };
 
-declare var module: {
+/*declare var module: {
     exports: any;
     require(id: string): any;
     id: string;
@@ -43,7 +43,7 @@ declare var module: {
     loaded: boolean;
     parent: any;
     children: any[];
-};
+};*/
 
 // Same as module.exports
 declare var exports: any;
