@@ -27,7 +27,7 @@ declare module angular {
     interface IAngularStatic {
         mock: IMockStatic;
     }
-    
+
     // see https://docs.angularjs.org/api/ngMock/function/angular.mock.inject
     interface IInjectStatic {
         (...fns: Function[]): any;
@@ -237,5 +237,8 @@ declare module angular {
 ///////////////////////////////////////////////////////////////////////////////
 // functions attached to global object (window)
 ///////////////////////////////////////////////////////////////////////////////
-declare var module: (...modules: any[]) => any;
+
+// disable module declaration temporary, which conflicts w/ node.d.ts
+// @see: "angular-mock and node.js conflicting when running grunt-typescript on the “module” global variable" http://stackoverflow.com/questions/21918067/angular-mock-and-node-js-conflicting-when-running-grunt-typescript-on-the-modul
+// declare var module: (...modules: any[]) => any;
 declare var inject: angular.IInjectStatic;
