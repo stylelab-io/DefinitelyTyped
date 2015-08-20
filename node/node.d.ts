@@ -23,7 +23,7 @@ interface WeakSetConstructor {}
  *                                               *
  ************************************************/
 declare var process: NodeJS.Process;
-declare var global: any;
+declare var global: NodeJS.Global;
 
 declare var __filename: string;
 declare var __dirname: string;
@@ -46,15 +46,17 @@ interface NodeRequire extends NodeRequireFunction {
     main: any;
 }
 
-/*declare var module: {
+declare var require: NodeRequire;
+
+interface NodeModule {
     exports: any;
-    require(id: string): any;
+    require: NodeRequireFunction;
     id: string;
     filename: string;
     loaded: boolean;
     parent: any;
     children: any[];
-};*/
+}
 
 declare var module: NodeModule;
 
@@ -147,10 +149,10 @@ declare var Buffer: {
 };
 
 /************************************************
-*                                               *
-*               GLOBAL INTERFACES               *
-*                                               *
-************************************************/
+ *                                               *
+ *               GLOBAL INTERFACES               *
+ *                                               *
+ ************************************************/
 declare module NodeJS {
     export interface ErrnoException extends Error {
         errno?: number;
@@ -284,7 +286,7 @@ declare module NodeJS {
         Int8Array: typeof Int8Array;
         Intl: typeof Intl;
         JSON: typeof JSON;
-        Map: MapConstructor
+        Map: MapConstructor;
         Math: typeof Math;
         NaN: typeof NaN;
         Number: typeof Number;
@@ -1643,7 +1645,9 @@ declare module "crypto" {
     }
     export function getDiffieHellman(group_name: string): DiffieHellman;
     export function pbkdf2(password: string, salt: string, iterations: number, keylen: number, callback: (err: Error, derivedKey: Buffer) => any): void;
+    export function pbkdf2(password: string, salt: string, iterations: number, keylen: number, digest: string, callback: (err: Error, derivedKey: Buffer) => any): void;
     export function pbkdf2Sync(password: string, salt: string, iterations: number, keylen: number) : Buffer;
+    export function pbkdf2Sync(password: string, salt: string, iterations: number, keylen: number, digest: string) : Buffer;
     export function randomBytes(size: number): Buffer;
     export function randomBytes(size: number, callback: (err: Error, buf: Buffer) =>void ): void;
     export function pseudoRandomBytes(size: number): Buffer;
@@ -1770,7 +1774,6 @@ declare module "util" {
     export function isDate(object: any): boolean;
     export function isError(object: any): boolean;
     export function inherits(constructor: any, superConstructor: any): void;
-    export function _extend(source: Object, destination: Object): Object;
 }
 
 declare module "assert" {
