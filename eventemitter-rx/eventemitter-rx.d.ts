@@ -7,14 +7,11 @@
 
 declare module 'eventemitter-rx' {
 
-    class EventEmitterRx {
+    export default class EventEmitterRx {
         next(name:string, data:Object):void;
         subscribe(name:string, handler:any): Rx.IDisposable;
         hasObserver(name:string):boolean;
         dispose(name:string):void;
         disposeAll():void;
     }
-
-    export = EventEmitterRx;
-
 }
