@@ -167,6 +167,7 @@ declare module "fs-extra" {
 	export function exists(path: string, callback?: (exists: boolean) => void ): void;
 	export function existsSync(path: string): boolean;
     export function ensureDir(path: string, cb: (err: Error) => void): void;
+    export function ensureDirSync(path: string): boolean;
 
 	export interface OpenOptions {
 		encoding?: string;
