@@ -694,9 +694,9 @@ declare module _ {
         takeWhile<T>(
             array: (Array<T>|List<T>),
             predicate?: ListIterator<T, boolean>,
-            thisArg?: any 
+            thisArg?: any
         ): T[];
-        
+
         /**
          * Takes the first items from an array or list based on a predicate
          * @param array The array or list of items on which the result set will be based
@@ -706,7 +706,7 @@ declare module _ {
             array: (Array<T>|List<T>),
             pluckValue: string
         ): any[];
-        
+
         /**
          * Takes the first items from an array or list based on a predicate
          * @param array The array or list of items on which the result set will be based
@@ -1502,7 +1502,7 @@ declare module _ {
         **/
         union<T>(...arrays: List<T>[]): T[];
     }
-    
+
     interface LoDashArrayWrapper<T> {
         /**
         * @see _.union
@@ -2000,58 +2000,94 @@ declare module _ {
         zipWith<TResult>(...args: any[]): LoDashArrayWrapper<TResult>;
     }
 
-    /* *************
-     * Collections *
-     ************* */
+    /*********
+     * Chain *
+     *********/
+
+    //_.thru
+    interface LoDashStatic {
+        /**
+         * This method is like _.tap except that it returns the result of interceptor.
+         * @param value The value to provide to interceptor.
+         * @param interceptor The function to invoke.
+         * @param thisArg The this binding of interceptor.
+         * @return Returns the result of interceptor.
+         */
+        thru<T, TResult>(
+            value: T,
+            interceptor: (value: T) => TResult,
+            thisArg?: any): TResult;
+    }
+
+    interface LoDashWrapperBase<T, TWrapper> {
+        /**
+         * @see _.thru
+         */
+        thru<TResult extends number>(
+            interceptor: (value: T) => TResult,
+            thisArg?: any): LoDashWrapper<TResult>;
+
+        /**
+         * @see _.thru
+         */
+        thru<TResult extends string>(
+            interceptor: (value: T) => TResult,
+            thisArg?: any): LoDashWrapper<TResult>;
+
+        /**
+         * @see _.thru
+         */
+        thru<TResult extends boolean>(
+            interceptor: (value: T) => TResult,
+            thisArg?: any): LoDashWrapper<TResult>;
+
+        /**
+         * @see _.thru
+         */
+        thru<TResult extends Object>(
+            interceptor: (value: T) => TResult,
+            thisArg?: any): LoDashObjectWrapper<TResult>;
+
+        /**
+         * @see _.thru
+         */
+        thru<TResult>(
+            interceptor: (value: T) => TResult[],
+            thisArg?: any): LoDashArrayWrapper<TResult>;
+    }
+
+    /**************
+     * Collection *
+     **************/
 
     //_.at
     interface LoDashStatic {
         /**
-        * Creates an array of elements from the specified indexes, or keys, of the collection.
-        * Indexes may be specified as individual arguments or as arrays of indexes.
-        * @param collection The collection to iterate over.
-        * @param indexes The indexes of collection to retrieve, specified as individual indexes or
-        * arrays of indexes.
-        * @return A new array of elements corresponding to the provided indexes.
-        **/
+         * Creates an array of elements corresponding to the given keys, or indexes, of collection. Keys may be
+         * specified as individual arguments or as arrays of keys.
+         *
+         * @param collection The collection to iterate over.
+         * @param props The property names or indexes of elements to pick, specified individually or in arrays.
+         * @return Returns the new array of picked elements.
+         */
         at<T>(
-            collection: Array<T>,
-            indexes: number[]): T[];
+            collection: List<T>|Dictionary<T>,
+            ...props: Array<number|string|Array<number|string>>
+        ): T[];
+    }
 
+    interface LoDashArrayWrapper<T> {
         /**
-        * @see _.at
-        **/
-        at<T>(
-            collection: List<T>,
-            indexes: number[]): T[];
+         * @see _.at
+         */
+        at(...props: Array<number|string|Array<number|string>>): LoDashArrayWrapper<T>;
+    }
 
+    interface LoDashObjectWrapper<T> {
         /**
-        * @see _.at
-        **/
-        at<T>(
-            collection: Dictionary<T>,
-            indexes: number[]): T[];
-
-        /**
-        * @see _.at
-        **/
-        at<T>(
-            collection: Array<T>,
-            ...indexes: number[]): T[];
-
-        /**
-        * @see _.at
-        **/
-        at<T>(
-            collection: List<T>,
-            ...indexes: number[]): T[];
-
-        /**
-        * @see _.at
-        **/
-        at<T>(
-            collection: Dictionary<T>,
-            ...indexes: number[]): T[];
+         * @see _.at
+         */
+        at<TResult>(...props: Array<number|string|Array<number|string>>): LoDashArrayWrapper<TResult>;
     }
 
     //_.contains
@@ -2514,13 +2550,13 @@ declare module _ {
         /**
         * Iterates over elements of a collection, returning an array of all elements the
         * identity function returns truey for.
-        * 
+        *
         * @param collection The collection to iterate over.
         * @return Returns a new array of elements that passed the callback check.
         **/
         filter<T>(
             collection: (Array<T>|List<T>)): T[];
-            
+
         /**
         * Iterates over elements of a collection, returning an array of all elements the
         * callback returns truey for. The callback is bound to thisArg and invoked with three
@@ -2683,7 +2719,7 @@ declare module _ {
         * @see _.filter
         **/
         filter(): LoDashArrayWrapper<T>;
-            
+
         /**
         * @see _.filter
         **/
@@ -5096,7 +5132,7 @@ declare module _ {
         sortBy<W, T>(
             collection: List<T>,
             whereValue: W): T[];
-            
+
         /**
          * Sorts by all the given arguments, using either ListIterator, pluckValue, or whereValue foramts
          * @param args The rules by which to sort
@@ -5126,7 +5162,7 @@ declare module _ {
         * @param whereValue _.where style callback
         **/
         sortBy<W>(whereValue: W): LoDashArrayWrapper<T>;
-        
+
         /**
          * Sorts by all the given arguments, using either ListIterator, pluckValue, or whereValue foramts
          * @param args The rules by which to sort
@@ -6230,6 +6266,23 @@ declare module _ {
         isDate(): boolean;
     }
 
+    //_.isElement
+    interface LoDashStatic {
+        /**
+         * Checks if value is a DOM element.
+         * @param value The value to check.
+         * @return Returns true if value is a DOM element, else false.
+         */
+        isElement(value?: any): boolean;
+    }
+
+    interface LoDashWrapperBase<T, TWrapper> {
+        /**
+         * @see _.isElement
+         */
+        isElement(): boolean;
+    }
+
     //_.isEmpty
     interface LoDashStatic {
         /**
@@ -6396,6 +6449,45 @@ declare module _ {
          * see _.isNumber
          */
         isNumber(): boolean;
+    }
+
+    //_.isObject
+    interface LoDashStatic {
+        /**
+         * Checks if value is the language type of Object. (e.g. arrays, functions, objects, regexes, new Number(0),
+         * and new String(''))
+         * @param value The value to check.
+         * @return Returns true if value is an object, else false.
+         **/
+        isObject(value?: any): boolean;
+    }
+
+    interface LoDashWrapperBase<T, TWrapper> {
+        /**
+         * see _.isObject
+         */
+        isObject(): boolean;
+    }
+
+    //_.isPlainObject
+    interface LoDashStatic {
+        /**
+         * Checks if value is a plain object, that is, an object created by the Object constructor or one with a
+         * [[Prototype]] of null.
+         *
+         * Note: This method assumes objects created by the Object constructor have no inherited enumerable properties.
+         *
+         * @param value The value to check.
+         * @return Returns true if value is a plain object, else false.
+         */
+        isPlainObject(value?: any): boolean;
+    }
+
+    interface LoDashWrapperBase<T, TWrapper> {
+        /**
+         * see _.isPlainObject
+         */
+        isPlainObject(): boolean;
     }
 
     //_.isRegExp
@@ -7061,17 +7153,17 @@ declare module _ {
          * @param defaultValue The value returned if the resolved value is undefined.
          * @return Returns the resolved value.
          **/
-        get<T>(object: Object,
-               path: string|string[],
-               defaultValue?:T
-        ): T;
+        get<TResult>(object: Object,
+               path: string|number|boolean|Array<string|number|boolean>,
+               defaultValue?:TResult
+        ): TResult;
     }
 
     interface LoDashObjectWrapper<T> {
         /**
          * @see _.get
          **/
-        get<TResult>(path: string|string[],
+        get<TResult>(path: string|number|boolean|Array<string|number|boolean>,
                      defaultValue?: TResult
         ): TResult;
     }
@@ -7079,12 +7171,20 @@ declare module _ {
     //_.has
     interface LoDashStatic {
         /**
-        * Checks if path is a direct property.
-        * @param object The object to query.
-        * @param path The path to check.
-        * @return True if path is a direct property, else False.
-        **/
-        has(object: any, path: string|string[]): boolean;
+         * Checks if path is a direct property.
+         *
+         * @param object The object to query.
+         * @param path The path to check.
+         * @return Returns true if path is a direct property, else false.
+         */
+        has(object: any, path: string|number|boolean|Array<string|number|boolean>): boolean;
+    }
+
+    interface LoDashObjectWrapper<T> {
+        /**
+         * @see _.has
+         */
+        has(path: string|number|boolean|Array<string|number|boolean>): boolean;
     }
 
     //_.invert
@@ -7095,16 +7195,6 @@ declare module _ {
         * @return The created inverted object.
         **/
         invert(object: any): any;
-    }
-
-    //_.isElement
-    interface LoDashStatic {
-        /**
-        * Checks if value is a DOM element.
-        * @param value The value to check.
-        * @return True if the value is a DOM element, else false.
-        **/
-        isElement(value?: any): boolean;
     }
 
     //_.isEqual
@@ -7185,27 +7275,6 @@ declare module _ {
         eq(other?: any,
            callback?: EqCustomizer,
            thisArg?: any): boolean;
-    }
-
-    //_.isObject
-    interface LoDashStatic {
-        /**
-        * Checks if value is the language type of Object. (e.g. arrays, functions, objects, regexes,
-        * new Number(0), and new String(''))
-        * @param value The value to check.
-        * @return True if the value is an object, else false.
-        **/
-        isObject(value?: any): boolean;
-    }
-
-    //_.isPlainObject
-    interface LoDashStatic {
-        /**
-        * Checks if value is an object created by the Object constructor.
-        * @param value The value to check.
-        * @return True if value is a plain object, else false.
-        **/
-        isPlainObject(value?: any): boolean;
     }
 
     //_.keys
@@ -7425,36 +7494,50 @@ declare module _ {
         pairs(): LoDashArrayWrapper<any[]>;
     }
 
-    //_.picks
+    //_.pick
     interface LoDashStatic {
         /**
-        * Creates a shallow clone of object composed of the specified properties. Property names may be
-        * specified as individual arguments or as arrays of property names. If a callback is provided
-        * it will be executed for each property of object picking the properties the callback returns
-        * truey for. The callback is bound to thisArg and invoked with three arguments; (value, key,
-        * object).
-        * @param object Object to strip unwanted key/value pairs.
-        * @param keys Property names to pick
-        * @return An object composed of the picked properties.
-        **/
-        pick<Picked, T>(
+         * Creates an object composed of the picked object properties. Property names may be specified as individual
+         * arguments or as arrays of property names. If predicate is provided it’s invoked for each property of object
+         * picking the properties predicate returns truthy for. The predicate is bound to thisArg and invoked with
+         * three arguments: (value, key, object).
+         *
+         * @param object The source object.
+         * @param predicate The function invoked per iteration or property names to pick, specified as individual
+         * property names or arrays of property names.
+         * @param thisArg The this binding of predicate.
+         * @return An object composed of the picked properties.
+         */
+        pick<TResult extends Object, T extends Object>(
             object: T,
-            ...keys: string[]): Picked;
+            predicate: ObjectIterator<any, boolean>,
+            thisArg?: any
+        ): TResult;
 
         /**
-        * @see _.pick
-        **/
-        pick<Picked, T>(
+         * @see _.pick
+         */
+        pick<TResult extends Object, T extends Object>(
             object: T,
-            keys: string[]): Picked;
+            ...predicate: Array<string|number|boolean|Array<string|number|boolean>>
+        ): TResult;
+    }
+
+    interface LoDashObjectWrapper<T> {
+        /**
+         * @see _.pick
+         */
+        pick<TResult extends Object>(
+            predicate: ObjectIterator<any, boolean>,
+            thisArg?: any
+        ): LoDashObjectWrapper<TResult>;
 
         /**
-        * @see _.pick
-        **/
-        pick<Picked, T>(
-            object: T,
-            callback: ObjectIterator<any, boolean>,
-            thisArg?: any): Picked;
+         * @see _.pick
+         */
+        pick<TResult extends Object>(
+            ...predicate: Array<string|number|boolean|Array<string|number|boolean>>
+        ): LoDashObjectWrapper<TResult>;
     }
 
     //_.set
@@ -7850,6 +7933,50 @@ declare module _ {
         startsWith(target?: string, position?: number): boolean;
     }
 
+    //_.template
+    interface TemplateExecutor {
+        (data?: Object): string;
+        source: string;
+    }
+
+    interface LoDashStatic {
+        /**
+         * Creates a compiled template function that can interpolate data properties in "interpolate" delimiters,
+         * HTML-escape interpolated data properties in "escape" delimiters, and execute JavaScript in "evaluate"
+         * delimiters. Data properties may be accessed as free variables in the template. If a setting object is
+         * provided it takes precedence over _.templateSettings values.
+         *
+         * Note: In the development build _.template utilizes
+         * [sourceURLs](http://www.html5rocks.com/en/tutorials/developertools/sourcemaps/#toc-sourceurl) for easier
+         * debugging.
+         *
+         * For more information on precompiling templates see
+         * [lodash's custom builds documentation](https://lodash.com/custom-builds).
+         *
+         * For more information on Chrome extension sandboxes see
+         * [Chrome's extensions documentation](https://developer.chrome.com/extensions/sandboxingEval).
+         *
+         * @param string The template string.
+         * @param options The options object.
+         * @param options.escape The HTML "escape" delimiter.
+         * @param options.evaluate The "evaluate" delimiter.
+         * @param options.imports An object to import into the template as free variables.
+         * @param options.interpolate The "interpolate" delimiter.
+         * @param options.variable The data object variable name.
+         * @return Returns the compiled template function.
+         */
+        template(
+            string: string,
+            options?: TemplateSettings): TemplateExecutor;
+    }
+
+    interface LoDashWrapper<T> {
+        /**
+         * @see _.template
+         */
+        template(options?: TemplateSettings): TemplateExecutor;
+    }
+
     //_.trim
     interface LoDashStatic {
         /**
@@ -7993,11 +8120,32 @@ declare module _ {
     //_.identity
     interface LoDashStatic {
         /**
-        * This method returns the first argument provided to it.
-        * @param value Any value.
-        * @return value.
-        **/
+         * This method returns the first argument provided to it.
+         * @param value Any value.
+         * @return Returns value.
+         */
         identity<T>(value?: T): T;
+    }
+
+    interface LoDashWrapper<T> {
+        /**
+         * @see _.identity
+         */
+        identity(): T;
+    }
+
+    interface LoDashArrayWrapper<T> {
+        /**
+         * @see _.identity
+         */
+        identity(): T[];
+    }
+
+    interface LoDashObjectWrapper<T> {
+        /**
+         * @see _.identity
+         */
+        identity(): T;
     }
 
     //_.method
@@ -8061,12 +8209,54 @@ declare module _ {
     }
 
     //_.mixin
+    interface MixinOptions {
+        chain?: boolean;
+    }
+
     interface LoDashStatic {
         /**
-        * Adds function properties of a source object to the lodash function and chainable wrapper.
-        * @param object The object of function properties to add to lodash.
-        **/
-        mixin(object?: Dictionary<(value: any) => any>): void;
+         * Adds all own enumerable function properties of a source object to the destination object. If object is a
+         * function then methods are added to its prototype as well.
+         *
+         * Note: Use _.runInContext to create a pristine lodash function to avoid conflicts caused by modifying
+         * the original.
+         *
+         * @param object The destination object.
+         * @param source The object of functions to add.
+         * @param options The options object.
+         * @param options.chain Specify whether the functions added are chainable.
+         * @return Returns object.
+         */
+        mixin<TResult, TObject>(
+            object: TObject,
+            source: Dictionary<Function>,
+            options?: MixinOptions
+        ): TResult;
+
+        /**
+         * @see _.mixin
+         */
+        mixin<TResult>(
+            source: Dictionary<Function>,
+            options?: MixinOptions
+        ): TResult;
+    }
+
+    interface LoDashObjectWrapper<T> {
+        /**
+         * @see _.mixin
+         */
+        mixin<TResult>(
+            source: Dictionary<Function>,
+            options?: MixinOptions
+        ): LoDashObjectWrapper<TResult>;
+
+        /**
+         * @see _.mixin
+         */
+        mixin<TResult>(
+            options?: MixinOptions
+        ): LoDashObjectWrapper<TResult>;
     }
 
     //_.noConflict
@@ -8214,73 +8404,59 @@ declare module _ {
         runInContext(context: any): typeof _;
     }
 
-    //_.template
-    interface LoDashStatic {
-        /**
-        * A micro-templating method that handles arbitrary delimiters, preserves whitespace, and
-        * correctly escapes quotes within interpolated code.
-        *
-        * Note: In the development build, _.template utilizes sourceURLs for easier debugging. See
-        * http://www.html5rocks.com/en/tutorials/developertools/sourcemaps/#toc-sourceurl
-        *
-        * For more information on precompiling templates see:
-        * http://lodash.com/#custom-builds
-        *
-        * For more information on Chrome extension sandboxes see:
-        * http://developer.chrome.com/stable/extensions/sandboxingEval.html
-        * @param text The template text.
-        * @param data The data object used to populate the text.
-        * @param options The options object.
-        * @param options.escape The "escape" delimiter.
-        * @param options.evaluate The "evaluate" delimiter.
-        * @param options.import An object to import into the template as local variables.
-        * @param options.interpolate The "interpolate" delimiter.
-        * @param sourceURL The sourceURL of the template's compiled source.
-        * @param variable The data object variable name.
-        * @return Returns the compiled Lo-Dash HTML template or a TemplateExecutor if no data is passed.
-        **/
-        template(
-            text: string): TemplateExecutor;
-
-        /**
-        * @see _.template
-        **/
-        template(
-            text: string,
-            data: any,
-            options?: TemplateSettings,
-            sourceURL?: string,
-            variable?: string): any /* string or TemplateExecutor*/;
-    }
-
-    interface TemplateExecutor {
-        (...data: any[]): string;
-        source: string;
-    }
-
     //_.times
     interface LoDashStatic {
         /**
-        * Executes the callback n times, returning an array of the results of each callback execution.
-        * The callback is bound to thisArg and invoked with one argument; (index).
-        * @param n The number of times to execute the callback.
-        * @param callback The function called per iteration.
-        * @param thisArg The this binding of callback.
-        **/
+         * Invokes the iteratee function n times, returning an array of the results of each invocation. The iteratee is
+         * bound to thisArg and invoked with one argument; (index).
+         *
+         * @param n The number of times to invoke iteratee.
+         * @param iteratee The function invoked per iteration.
+         * @param thisArg The this binding of iteratee.
+         * @return Returns the array of results.
+         */
         times<TResult>(
             n: number,
-            callback: (num: number) => TResult,
-            context?: any): TResult[];
+            iteratee: (num: number) => TResult,
+            thisArg?: any
+        ): TResult[];
+
+        /**
+         * @see _.times
+         */
+        times(n: number): number[];
+    }
+
+    interface LoDashWrapper<T> {
+        /**
+         * @see _.times
+         */
+        times<TResult>(
+            iteratee: (num: number) => TResult,
+            thisArgs?: any
+        ): LoDashArrayWrapper<TResult>;
+
+        /**
+         * @see _.times
+         */
+        times(): LoDashArrayWrapper<number>;
     }
 
     //_.uniqueId
     interface LoDashStatic {
         /**
-        * Generates a unique ID. If prefix is provided the ID will be appended to it.
-        * @param prefix The value to prefix the ID with.
-        * @return Returns the unique ID.
-        **/
+         * Generates a unique ID. If prefix is provided the ID is appended to it.
+         * @param prefix The value to prefix the ID with.
+         * @return Returns the unique ID.
+         */
         uniqueId(prefix?: string): string;
+    }
+
+    interface LoDashWrapper<T> {
+        /**
+         * @see _.uniqueId
+         */
+        uniqueId(): string;
     }
 
     //_.constant
