@@ -19,7 +19,7 @@ declare module '@furny/node-console-framework' {
             getName(): string;
             getDescription(): string;
             getArguments(): IArgument[];
-            execute(app: ConsoleApplication): Q.Promise<any>;
+            execute(sc: DependencyInjection.Container): Q.Promise<any>;
         }
     }
 
