@@ -19,7 +19,6 @@ declare module '@furny/node-console-framework' {
             getName(): string;
             getDescription(): string;
             getArguments(): IArgument[];
-            factory(sc: Typeioc.IContainer): Typeioc.IFactory<ICommand>;
             execute(app: ConsoleApplication): Q.Promise<any>;
         }
     }
