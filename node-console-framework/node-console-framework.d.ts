@@ -2,7 +2,7 @@
 /// <reference path="../typeioc/typeioc.d.ts"/>
 /// <reference path="../node/node.d.ts"/>
 
-declare module 'node-console-framework' {
+declare module '@furny/node-console-framework' {
 
     export interface IArgument {
         name: string;
