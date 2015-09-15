@@ -102,8 +102,8 @@ declare module '@furny/node-console-framework' {
         registeredServices: Service.IService[];
 
         constructor();
-        preRunHook(app: ConsoleApplication);
-        postRunHook(app: ConsoleApplication);
+        preRunHook(sc: DependencyInjection.Container);
+        postRunHook(sc: DependencyInjection.Container, data: any);
     }
 
     export class ConsoleApplication {
