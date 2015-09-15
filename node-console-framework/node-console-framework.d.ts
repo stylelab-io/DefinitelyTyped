@@ -20,7 +20,7 @@ declare module '@furny/node-console-framework' {
             getDescription(): string;
             getArguments(): IArgument[];
             factory(sc: Typeioc.IContainer): Typeioc.IFactory<ICommand>;
-            execute(): Q.Promise<any>;
+            execute(app: ConsoleApplication): Q.Promise<any>;
         }
     }
 
