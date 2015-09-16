@@ -93,7 +93,7 @@ declare module '@furny/node-console-framework' {
     export module Service {
         export interface IService {
             getName(): string;
-            factory(sc: Typeioc.IContainer): Typeioc.IFactory<IService>;
+            factory(): Typeioc.IFactory<IService>;
         }
     }
 
