@@ -5,20 +5,20 @@
 declare module '@furny/node-console-framework' {
 
     export module Command {
-        export interface IArgument {
+        export interface IOption {
             name: string;
             required: boolean;
             type: any;
             alias: string;
             description: string;
-            defaultValue ? : any;
+            defaultValue? : any;
             validation?: any;
         }
 
         export interface ICommand {
             getName(): string;
             getDescription(): string;
-            getArguments(): IArgument[];
+            getArguments(): IOption[];
             execute(sc: DependencyInjection.Container, args: Input.ArgvInput): Q.Promise<any>;
         }
     }
