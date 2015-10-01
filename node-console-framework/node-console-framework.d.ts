@@ -64,6 +64,26 @@ declare module '@furny/node-console-framework' {
             getKey(): string;
             getValue(): string;
         }
+
+        export class DialogBool {
+            constructor(serviceContainer: DependencyInjection.Container);
+            prompt(question: string, fallback: boolean): boolean;
+        }
+
+        export class DialogHiddenString {
+            constructor(serviceContainer: DependencyInjection.Container);
+            prompt(question: string, fallback: string): string;
+        }
+
+        export class DialogString {
+            constructor(serviceContainer: DependencyInjection.Container);
+            prompt(question: string, fallback: string): string;
+        }
+
+        export class DialogNumber {
+            constructor(serviceContainer: DependencyInjection.Container);
+            prompt(question: string, fallback: number): number;
+        }
     }
 
     export module Output {
